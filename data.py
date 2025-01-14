@@ -1,6 +1,10 @@
 from vanna.chromadb import ChromaDB_VectorStore
 from vanna.google import GoogleGeminiChat
 from vanna import *
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 class MyLadda(ChromaDB_VectorStore, GoogleGeminiChat):
     """
@@ -71,57 +75,71 @@ class MyLadda(ChromaDB_VectorStore, GoogleGeminiChat):
         self.remove_training_data(id=data_id)
         print(f"Removed training data with ID: {data_id}.")
 
+    def env(variable_name, modale_name):
+        return os.getenv(variable_name=None, modale_name=None)
+
 # Usage
 if __name__ == "__main__":
-    # Configuration
-    GEMINI_API_KEY = "AIzaSyDN5BCWKiyOUdx3_xRa5b9szL8muDcfSlU"
-    GEMINI_MODEL = "gemini-1.5-flash"
 
+    import os
+    from dotenv import load_dotenv
+    load_dotenv()
+
+    GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+    GEMINI_MODEL =  os.getenv('GEMINI_MODEL')
     # Initialize MyVanna
     vn = MyLadda(
         chromadb_config=None,
         gemini_config={'api_key': GEMINI_API_KEY, 'model': GEMINI_MODEL}
     )
 
+    # configuration
+
+
     # Connect to MySQL database
     vn.connect_to_database(
         host='localhost',
-        dbname='any_db', 
-        user='root',
-        password='',
+        dbname='data',
+        user='vannauser',
+        password='degree477',
         port=3306
     )
 
     # Fetch and inspect the information schema
-    schema_df = vn.fetch_information_schema()
+    # schema_df = vn.fetch_information_schema()
 
-    # Create a training plan
-    training_plan = vn.create_training_plan(schema_df)
-    print(training_plan)
+    # # Create a training plan
+    # training_plan = vn.create_training_plan(schema_df)
+    # print(training_plan)
 
     # Optional: Train the system using the generated plan
     # vn.train(plan=training_plan)
 
     # Add specific training data
-    vn.train_ddl("""
-        CREATE TABLE IF NOT EXISTS my_table (
-            id INT PRIMARY KEY,
-            name VARCHAR(100),
-            age INT
-        )
-    """)
+    # vn.train_ddl("""
+    #     CREATE TABLE IF NOT EXISTS my_table (
+    #         id INT PRIMARY KEY,
+    #         name VARCHAR(100),
+    #         age INT
+    #     )
+    # """)
 
-    vn.train_documentation(
-        "Our business defines OTIF score as the percentage of orders that are delivered on time and in full."
-    )
+    # vn.train_documentation(
+    #     "Our business defines OTIF score as the percentage of orders that are delivered on time and in full."
+    # )
 
-    vn.train_sql("SELECT * FROM my_table WHERE name = 'John Doe'")
+    # vn.train_sql("SELECT * FROM my_table WHERE name = 'John Doe'")
 
-    # Inspect current training data
-    training_data = vn.get_all_training_data()
-    print(training_data)
+    # # Inspect current training data
+    # training_data = vn.get_all_training_data()
+    # print(training_data)
 
-    # Remove obsolete training data
-    vn.remove_training_data_by_id('1-ddl')
+    # # Remove obsolete training data
+    # vn.remove_training_data_by_id('1-ddl')
+    # sql = vn.generate_sql(question='what is there?')
+    # print(sql)
+    # vn.ask(question='is there any data in the database')
 
-    vn.ask(question=...)
+    from vanna.flask import VannaFlaskApp
+    app = VannaFlaskApp(vn)
+    app.run()
