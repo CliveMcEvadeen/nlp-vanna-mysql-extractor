@@ -2,7 +2,7 @@ from vanna.chromadb import ChromaDB_VectorStore
 from vanna.google import GoogleGeminiChat
 from vanna import *
 
-class MyVanna(ChromaDB_VectorStore, GoogleGeminiChat):
+class MyLadda(ChromaDB_VectorStore, GoogleGeminiChat):
     """
     A class combining ChromaDB_VectorStore and GoogleGeminiChat functionality.
     This class integrates database connection, schema exploration, training data management, and LLM communication.
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     GEMINI_MODEL = "gemini-1.5-flash"
 
     # Initialize MyVanna
-    vn = MyVanna(
+    vn = MyLadda(
         chromadb_config=None,
         gemini_config={'api_key': GEMINI_API_KEY, 'model': GEMINI_MODEL}
     )
