@@ -11,7 +11,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.runnables import RunnablePassthrough
 
 # Check if GOOGLE_API_KEY is set before assigning
-GOOGLE_API_KEY = 'AIzaSyDN5BCWKiyOUdx3_xRa5b9szL8muDcfSlU'
+GOOGLE_API_KEY = ''
 os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 
 user = "vannauser"
