@@ -106,7 +106,8 @@ if __name__ == "__main__":
     )
 
     # Fetch and inspect the information schema
-    # schema_df = vn.fetch_information_schema()
+    schema_df = vn.fetch_information_schema()
+    print(schema_df)
 
     # # Create a training plan
     # training_plan = vn.create_training_plan(schema_df)
@@ -138,8 +139,8 @@ if __name__ == "__main__":
     # vn.remove_training_data_by_id('1-ddl')
     # sql = vn.generate_sql(question='what is there?')
     # print(sql)
-    # vn.ask(question='is there any data in the database')
+    vn.ask(question='is there any data in the database')
 
-    from vanna.flask import VannaFlaskApp
-    app = VannaFlaskApp(vn)
-    app.run()
+    # from vanna.flask import VannaFlaskApp
+    # app = VannaFlaskApp(vn)
+    # app.run()
